@@ -27,3 +27,12 @@ async def leaked_git(request: Request):
 \turl = git@fake-git-server:honey/honeypot.git
 \tfetch = +refs/heads/*:refs/remotes/origin/*
 """
+@router.get("/backup.zip")
+async def get_backup(request: Request):
+    log_request(request, "/backup.zip accessed")
+    # retourne un vrai faux zip vide si tu veux (crée `assets/backup.zip`)
+    return FileResponse("assets/backup.zip", media_type="application/zip")
+
+@router.get("/robots.txt")
+async def get_robots(request: Request):
+    return PlainTextResponse("User-agent: *\nDisallow: /hidden/flag\n")
