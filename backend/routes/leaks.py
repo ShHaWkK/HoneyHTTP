@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
+from fastapi.responses import FileResponse, PlainTextResponse
 from utils import log_request
-from fastapi.responses import PlainTextResponse
 
 router = APIRouter()
 
@@ -27,12 +27,12 @@ async def leaked_git(request: Request):
 \turl = git@fake-git-server:honey/honeypot.git
 \tfetch = +refs/heads/*:refs/remotes/origin/*
 """
+
 @router.get("/backup.zip")
 async def get_backup(request: Request):
     log_request(request, "/backup.zip accessed")
-    # retourne un vrai faux zip vide si tu veux (crée `assets/backup.zip`)
     return FileResponse("assets/backup.zip", media_type="application/zip")
 
-@router.get("/robots.txt")
+@router.get("/robots.txt", response_class=PlainTextResponse)
 async def get_robots(request: Request):
-    return PlainTextResponse("User-agent: *\nDisallow: /hidden/flag\n")
+    return "User-agent: *\nDisallow: /hidden/flag\n"
