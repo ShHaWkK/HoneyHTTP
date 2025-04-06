@@ -15,7 +15,7 @@ export default function LoginJWT() {
 
     const data = await res.json();
     if (data.token) {
-      localStorage.setItem("jwt", data.token); // 😈 token facilement volable
+      localStorage.setItem("jwt", data.token);
       setToken(data.token);
     }
   };

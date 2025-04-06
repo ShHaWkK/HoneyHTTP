@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import auth, upload, api,track,phish, rce, xss,login_jwt, logs,api_fake,chat,upload_profile,sql_dump
+from routes import auth, upload, api,track,monitor,leaks,phish, rce, xss,login_jwt, logs,api_fake,chat,upload_profile,sql_dump
 from database import init_db
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -28,5 +28,7 @@ app.include_router(sql_dump.router)
 app.include_router(login_jwt.router)
 app.include_router(track.router)
 app.include_router(phish.router)
+app.include_router(leaks.router)
+app.include_router(monitor.router)
 # Créer le dossier de log si manquant
 os.makedirs("logs", exist_ok=True)

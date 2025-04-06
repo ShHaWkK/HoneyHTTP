@@ -14,14 +14,16 @@ import LogViewer from "./pages/LogViewer";
 import Chat from "./pages/Chat";
 import ProfileUpload from "./pages/ProfileUpload";
 import AdminDump from "./pages/AdminDump";
-import { useEffect } from "react";
-import { startTracking } from "../tracker";
+import SpyAdmin from "./pages/SpyAdmin";
+import { startTracking } from "./pages/tracker"; // ✅
 
-useEffect(() => {
-  startTracking();
-}, []);
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    startTracking();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -39,6 +41,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/upload-profile" element={<ProfileUpload />} />
           <Route path="/admin-dump" element={<AdminDump />} />
+          <Route path="/spy" element={<SpyAdmin />} />
         </Route>
       </Routes>
     </BrowserRouter>
