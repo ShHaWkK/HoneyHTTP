@@ -15,7 +15,11 @@ import Chat from "./pages/Chat";
 import ProfileUpload from "./pages/ProfileUpload";
 import AdminDump from "./pages/AdminDump";
 import SpyAdmin from "./pages/SpyAdmin";
-import { startTracking } from "./pages/tracker"; // ✅
+import Dashboard from "./pages/Dashboard";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./theme/styles.css";
+
+import { startTracking } from "./pages/tracker";
 
 import { useEffect } from "react";
 
@@ -30,6 +34,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route element={<Layout />}>
           <Route path="/users" element={<Users />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin-create" element={<CreateAdmin />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/xss" element={<XSSForm />} />
