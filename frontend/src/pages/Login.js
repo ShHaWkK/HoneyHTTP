@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../theme/homepage.css";
 
 export default function Login() {
   const [username, setUser] = useState("");
   const [password, setPass] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -13,16 +16,29 @@ export default function Login() {
     });
     const data = await res.json();
     alert(data.message);
-    if (data.user) window.location.href = "/dashboard";
+    if (data.user) navigate("/dashboard");
   };
 
   return (
-    <div className="login-container">
-      <h2>Secure Panel Login</h2>
+    <div className="homepage login-box">
+      <h2>SecurePanel™ Login</h2>
       <form onSubmit={handleLogin}>
-        <input value={username} onChange={e => setUser(e.target.value)} placeholder="Username" />
-        <input type="password" value={password} onChange={e => setPass(e.target.value)} placeholder="Password" />
-        <button type="submit">Login</button>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUser(e.target.value)}
+          placeholder="Nom d'utilisateur"
+          required
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPass(e.target.value)}
+          placeholder="Mot de passe"
+          required
+        />
+        <button type="submit" className="btn btn-primary">Connexion</button>
+        <div className="mt-2 text-muted small">Mot de passe oublié ?</div>
       </form>
     </div>
   );

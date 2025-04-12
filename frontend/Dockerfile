@@ -2,7 +2,12 @@
 FROM node:18 AS build
 WORKDIR /app
 COPY . .
+
+# Installe les dépendances + sass nécessaire pour .scss
 RUN npm install
+RUN npm install sass
+
+# Build la version de production
 RUN npm run build
 
 # Étape finale : serveur Node.js léger avec `serve`

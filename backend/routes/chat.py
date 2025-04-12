@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, Request, Form
 from utils import log_request
 
 router = APIRouter()

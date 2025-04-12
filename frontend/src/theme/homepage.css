@@ -1,0 +1,18 @@
+.homepage-container {
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  
+    button {
+      min-width: 280px;
+      font-size: 1.2rem;
+      box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+  
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+  }
+  

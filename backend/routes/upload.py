@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Request
+from fastapi import APIRouter, Request, UploadFile, File
 import os
 from utils import log_request
 

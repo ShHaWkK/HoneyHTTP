@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./../theme/terminal.css"; // style terminal à créer
+import "../theme/terminal.css";
 
 export default function FileExplorer() {
   const [input, setInput] = useState("");
@@ -14,33 +14,34 @@ export default function FileExplorer() {
     setInput("");
 
     try {
-      const res = await axios.get(`http://localhost:8080/exec`, {
+      const res = await axios.get("http://localhost:8080/exec", {
         params: { cmd },
       });
-      setOutput((prev) => [...prev, res.data.result]);
+      setOutput(prev => [...prev, res.data.result]);
     } catch (err) {
-      setOutput((prev) => [...prev, "[error] command failed"]);
+      setOutput(prev => [...prev, "[error] command failed"]);
     }
   };
 
   return (
-    <div className="terminal-container">
-      <h4>Simulated Root Terminal</h4>
-      <div className="terminal-output">
+    <div className="terminal-container container mt-3">
+      <h4>🖥️ Root Terminal</h4>
+      <div className="terminal-output bg-dark text-success p-3 rounded" style={{ minHeight: "250px", fontFamily: "monospace" }}>
         {output.map((line, i) => (
-          <div key={i} className="terminal-line">{line}</div>
+          <div key={i}>{line}</div>
         ))}
       </div>
-      <form onSubmit={handleCommand}>
-        <span className="prompt">root@honeypot:~#</span>
+      <form onSubmit={handleCommand} className="mt-2 d-flex">
+        <span className="me-2">root@honeypot:~#</span>
         <input
+          className="form-control"
           type="text"
-          className="terminal-input"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={e => setInput(e.target.value)}
           autoFocus
         />
       </form>
+      <div className="small text-muted mt-2">Tapez <code>cat /.env</code> ou <code>rm -rf /</code> pour piéger l’intrus.</div>
     </div>
   );
 }
