@@ -1,35 +1,38 @@
 import React, { useState } from "react";
 
 export default function MFA() {
-  const [enabled, setEnabled] = useState(false);
+  const [code, setCode] = useState("");
+  const [status, setStatus] = useState("");
 
-  const toggleMFA = async () => {
-    setEnabled(true);
+  const handleVerify = async () => {
+    setStatus("⏳ Vérification du code...");
+    await new Promise(r => setTimeout(r, 1000));
+    setStatus("❌ Code invalide. Essayez encore."); // toujours invalide, mais crédible
+
+    // tracking de curiosité
     await fetch("http://localhost:8080/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        event: "mfa_enabled",
-        detail: "User clicked on 'Enable MFA'",
-        time: Date.now(),
-      }),
+      body: JSON.stringify({ event: "mfa_attempt", code, page: "MFA" }),
     });
   };
 
   return (
-    <div className="container mt-4">
-      <h2>🔐 Multi-Factor Authentication</h2>
-      <p>
-        Protect your account with an additional layer of security. MFA requires a code in addition to your password.
-      </p>
-      <button
-        className={`btn ${enabled ? "btn-secondary" : "btn-success"}`}
-        onClick={toggleMFA}
-        disabled={enabled}
-      >
-        {enabled ? "MFA Enabled" : "Enable MFA"}
+    <div className="container mt-5 text-center">
+      <h2>🔐 Vérification Multi-Facteurs</h2>
+      <p className="text-muted">Entrez le code généré par votre app d’authentification</p>
+      <input
+        type="text"
+        className="form-control w-25 mx-auto"
+        placeholder="000000"
+        maxLength={6}
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+      />
+      <button className="btn btn-primary mt-3" onClick={handleVerify}>
+        Vérifier le code
       </button>
-      {enabled && <div className="alert alert-info mt-3">MFA activated (not really 😏)</div>}
+      {status && <div className="alert alert-warning mt-3">{status}</div>}
     </div>
   );
 }

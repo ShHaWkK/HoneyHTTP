@@ -1,27 +1,40 @@
 import React, { useEffect, useState } from "react";
+import Chart from "chart.js/auto";
 
 export default function Analytics() {
-  const [metrics, setMetrics] = useState({});
-
-  const fetchMetrics = async () => {
-    const res = await fetch("http://localhost:8080/metrics");
-    const data = await res.json();
-    setMetrics(data);
-  };
+  const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
-    fetchMetrics();
+    fetch("http://localhost:8080/trackings")
+      .then((res) => res.text())
+      .then((data) => {
+        const lines = data.split("\n").filter((l) => l.includes("TRACK"));
+        setSessions(lines);
+        drawChart(lines.length);
+      });
   }, []);
+
+  const drawChart = (value) => {
+    const ctx = document.getElementById("sessionChart");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Sessions piégées"],
+        datasets: [{
+          label: "Nombre de sessions",
+          data: [value],
+          backgroundColor: "rgba(255, 99, 132, 0.5)"
+        }]
+      }
+    });
+  };
 
   return (
     <div className="container mt-4">
-      <h2>📊 Analytics</h2>
-      <ul className="list-group">
-        <li className="list-group-item">🧠 AI Security Status: {metrics.ai || "Online"}</li>
-        <li className="list-group-item">📡 Connected Devices: {metrics.devices || 42}</li>
-        <li className="list-group-item">📈 CPU Usage: {metrics.cpu || "45%"}</li>
-        <li className="list-group-item">💾 Storage Usage: {metrics.storage || "3.2 GB / 8 GB"}</li>
-      </ul>
+      <h2>📊 User Behavior Analytics</h2>
+      <canvas id="sessionChart" height="100"></canvas>
+      <h5 className="mt-4">Sessions Trackées :</h5>
+      <pre className="bg-light p-3">{sessions.slice(0, 10).join("\n")}</pre>
     </div>
   );
 }

@@ -2,24 +2,46 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
+# DB et init
 from database import init_db
+
+# Import de tous les routeurs depuis le dossier routes/
 from routes import (
-    auth, api_fake, chat, exec, file, leaks, login_jwt, logs, monitor,
-    phish, rce, track, upload, upload_profile, xss, sql_dump, users
+    auth,           # login / login-jwt / track/creds
+    api_fake,       # API trompeuses (filtres users, token API, etc)
+    chat,           # /chat /chat/send
+    exec,           # faux terminal /exec
+    file,           # accès fichiers type /.env, /.git/
+    leaks,          # fichiers statiques /backup.zip, /.env, etc
+    login_jwt,      # génération de faux JWT
+    logs,           # affichage des logs, tokens, tracking
+    monitor,        # /analytics, /logs, etc
+    phish,          # simulation login OAuth
+    rce,            # pièges remote code execution
+    track,          # suivi comportemental
+    upload,         # téléversement standard
+    upload_profile, # upload de profils
+    xss,            # formulaire commentaire piégé
+    sql_dump,       # simulation SQL dump (ex: admin 1=1)
+    users           # liste utilisateurs / admin-create
 )
 
+# Création app FastAPI
 app = FastAPI(title="HTTP Honeypot")
+
+# Initialisation BDD fake
 init_db()
 
+# CORS pour accepter les appels du frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],         # à restreindre si besoin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Routeurs
+# Montage des routes
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(api_fake.router)
@@ -38,4 +60,5 @@ app.include_router(upload_profile.router)
 app.include_router(xss.router)
 app.include_router(sql_dump.router)
 
+# Création dossier logs s’il n’existe pas
 os.makedirs("logs", exist_ok=True)
