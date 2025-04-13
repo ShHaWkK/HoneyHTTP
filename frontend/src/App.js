@@ -1,30 +1,54 @@
-// 📁 frontend/src/App.js
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import FileExplorer from "./pages/FileExplorer";
-import Config from "./pages/Config";
-import FakePHP from "./pages/FakePHP";
-import TokenViewer from "./pages/TokenViewer";
-import PhishPage from "./pages/PhishPage";
-import LogViewer from "./pages/LogViewer";
-import Cloud from "./pages/Cloud";
-import Users from "./pages/Users";
-import CreateAdmin from "./pages/CreateAdmin";
-import XSSForm from "./pages/XSSForm";
-import Chat from "./pages/Chat";
-import AdminDump from "./pages/AdminDump";
-import ProfileUpload from "./pages/ProfileUpload";
-import SpyAdmin from "./pages/SpyAdmin";
-import WordPress from "./pages/WordPress";
-import Upload from "./pages/Upload";
 
+// Dashboard principal
+import Dashboard from "./pages/Dashboard";
+
+// Monitoring
+import Logs from "./pages/Monitoring/Logs";
+import Analytics from "./pages/Monitoring/Analytics";
+
+// Security
+import MFA from "./pages/Security/MFA";
+import AccessLogs from "./pages/Security/AccessLogs";
+import AccessToken from "./pages/Security/AccessToken";
+
+// Settings
+import PhpConfig from "./pages/Settings/PhpConfig";
+//import NetworkConfig from "./pages/Settings/NetworkConfig";
+
+// Storage
+import CloudBuckets from "./pages/Storage/CloudBuckets";
+
+// System
+import Files from "./pages/System/Files";
+
+// Users
+import Users from "./pages/Users/Users";
+import Profile from "./pages/Users/Profile";
+
+// Auth
+import SSO from "./pages/Auth/SSO";
+
+// Pages diverses
+import AdminDump from "./pages/AdminDump";
+import AdminPanel from "./pages/AdminPanel";
+import Chat from "./pages/Chat";
+import CreateAdmin from "./pages/CreateAdmin";
+import Database from "./pages/System/Database";
+import Exfiltration from "./pages/Security/Exfiltration";
+import SpyAdmin from "./pages/SpyAdmin";
+import Upload from "./pages/Users/Upload";
+import XSSForm from "./pages/XSSForm";
+import WordPress from "./pages/System/WordPress";
+
+import { startTracking } from "./pages/tracker";
 import "./theme/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { startTracking } from "./pages/tracker";
 
 function App() {
   useEffect(() => {
@@ -34,29 +58,50 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Routes publiques, SANS sidebar */}
+        {/* Routes publiques, sans sidebar */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Routes privées, avec Layout (sidebar + header) */}
+        {/* Routes privées avec layout sécurisé */}
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/system/files" element={<FileExplorer />} />
-          <Route path="/config" element={<Config />} />
-          <Route path="/config-editor" element={<FakePHP />} />
-          <Route path="/auth/token-preview" element={<TokenViewer />} />
-          <Route path="/portal/secure-access" element={<PhishPage />} />
-          <Route path="/system/logs" element={<LogViewer />} />
-          <Route path="/cloud" element={<Cloud />} />
+
+          {/* Monitoring */}
+          <Route path="/system/logs" element={<Logs />} />
+          <Route path="/analytics" element={<Analytics />} />
+
+          {/* Security */}
+          <Route path="/security/mfa" element={<MFA />} />
+          <Route path="/security/access-logs" element={<AccessLogs />} />
+          <Route path="/security/access-token" element={<AccessToken />} />
+
+          {/* Settings */}
+          <Route path="/settings/php-config" element={<PhpConfig />} />
+
+          {/* Storage */}
+          <Route path="/storage/buckets" element={<CloudBuckets />} />
+
+          {/* System */}
+          <Route path="/system/files" element={<Files />} />
+
+          {/* Users */}
           <Route path="/users" element={<Users />} />
-          <Route path="/admin-create" element={<CreateAdmin />} />
-          <Route path="/xss" element={<XSSForm />} />
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/users/profile" element={<Profile />} />
+
+          {/* Auth (phishing page) */}
+          <Route path="/auth/sso" element={<SSO />} />
+
+          {/* Divers et honeypot */}
           <Route path="/admin-dump" element={<AdminDump />} />
-          <Route path="/upload-profile" element={<ProfileUpload />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/admin-create" element={<CreateAdmin />} />
+          <Route path="/database" element={<Database />} />
+          <Route path="/exfiltration" element={<Exfiltration />} />
           <Route path="/spy" element={<SpyAdmin />} />
-          <Route path="/wordpress" element={<WordPress />} />
           <Route path="/upload" element={<Upload />} />
+          <Route path="/xss" element={<XSSForm />} />
+          <Route path="/wordpress" element={<WordPress />} />
         </Route>
       </Routes>
     </BrowserRouter>

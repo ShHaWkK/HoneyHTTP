@@ -1,22 +1,24 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form
 from utils import log_request
+from datetime import datetime
 
 router = APIRouter()
 
 @router.post("/track")
 async def track(request: Request):
     data = await request.json()
-    log_request(request, f"TRACK: {data}")
+    client_ip = request.client.host
+    ua = request.headers.get("User-Agent", "Unknown")
+    data["ip"] = client_ip
+    data["user_agent"] = ua
+    data["time"] = datetime.utcnow().isoformat()
+    log_request(request, f"[TRACK] {data}")
     return {"status": "logged"}
 
-@router.get("/track/token-jwt")
-async def token_jwt_view(request: Request):
-    log_request(request, "JWT Token visualisé dans FakePHP.js")
-    return {"status": "tracked"}
-
-@router.post("/track/token-used")
-async def token_used(request: Request):
-    body = await request.json()
-    auth = request.headers.get("Authorization", "None")
-    log_request(request, f"TOKEN USED → {auth} | Detail: {body.get('detail')}")
-    return {"message": "Token reçu"}
+@router.post("/track/creds")
+async def capture_creds(username: str = Form(...), password: str = Form(...), request: Request = None):
+    ip = request.client.host
+    ua = request.headers.get("User-Agent", "Unknown")
+    time = datetime.utcnow().isoformat()
+    log_request(request, f"[LOGIN ATTEMPT] {username}:{password} | IP={ip} | UA={ua} | Time={time}")
+    return {"user": username if username == "admin" and password == "admin123" else None, "message": "Connexion simulée"}

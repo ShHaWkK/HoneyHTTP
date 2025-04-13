@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function CloudBuckets() {
+export default function Buckets() {
   const [clicked, setClicked] = useState("");
 
   const logDownload = async (bucket) => {
@@ -20,14 +20,14 @@ export default function CloudBuckets() {
 
   return (
     <div className="container mt-4">
-      <h2>☁️ Cloud Storage Manager</h2>
-      <p className="text-muted">Visualisez et téléchargez les buckets distants</p>
+      <h2>☁️ Buckets de Stockage</h2>
+      <p className="text-muted">Gérez vos fichiers distants en toute sécurité</p>
       <table className="table table-bordered mt-3">
         <thead>
           <tr>
-            <th>Bucket Name</th>
-            <th>Size</th>
-            <th>Download</th>
+            <th>Nom</th>
+            <th>Taille</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -40,17 +40,16 @@ export default function CloudBuckets() {
                   className="btn btn-sm btn-primary"
                   onClick={() => logDownload(b.name)}
                 >
-                  ⬇️ Download
+                  ⬇️ Télécharger
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
       {clicked && (
         <div className="alert alert-info mt-3">
-          📦 Simulated download started: <strong>{clicked}</strong>
+          📦 Téléchargement simulé : <strong>{clicked}</strong>
         </div>
       )}
     </div>

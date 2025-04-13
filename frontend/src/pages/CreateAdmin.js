@@ -1,3 +1,4 @@
+// path: frontend/src/pages/CreateAdmin.js
 import React, { useState } from "react";
 
 export default function CreateAdmin() {
