@@ -1,110 +1,56 @@
-// 📁 frontend/src/pages/Dashboard.js
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
-  const [response, setResponse] = useState("");
-  const sessionId = Date.now(); // Identifiant session pour le tracking
-
+  const [alerts, setAlerts] = useState([]);
   useEffect(() => {
-    document.title = "Admin Dashboard • Secure Panel";
+    document.title = "Tableau de bord • SecurePanel";
+    // Simuler des alertes temps-réel
+    const messages = [
+      "🔔 Tentative de brute-force bloquée",
+      "🔔 Nouveau ticket de support (#1024)",
+      "🔔 MFA activée pour user123"
+    ];
+    let i = 0;
+    const iv = setInterval(() => {
+      setAlerts((a) => [messages[i % messages.length], ...a].slice(0, 5));
+      i++;
+    }, 5000);
+    return () => clearInterval(iv);
   }, []);
-
-  const triggerTracking = async (event, detail) => {
-    await fetch("http://localhost:8080/track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event, detail, session: sessionId }),
-    });
-  };
-
-  const handleAction = (action) => {
-    triggerTracking("dashboard_action", action);
-    setResponse(`✅ Action '${action}' triggered`);
-  };
 
   return (
     <div className="container mt-4">
-      <h1>Welcome to SecurePanel™</h1>
-      <p className="text-muted">Centralized admin portal for cloud infrastructure.</p>
+      <h2>Bienvenue sur SecurePanel™</h2>
+      <div className="mt-3">
+        {alerts.map((m, i) => (
+          <div key={i} className="alert alert-warning small">
+            {m}
+          </div>
+        ))}
+      </div>
 
-      <div className="row">
-        {/* Colonne 1 : Session + Actions */}
-        <div className="col-md-6">
-          <div className="card shadow-sm mb-4">
-            <div className="card-body">
-              <h5 className="card-title">Session</h5>
-              <div className="alert alert-info">
-                {localStorage.getItem("jwt") ? (
-                  <>
-                    JWT Token active:<br />
-                    <code>{localStorage.getItem("jwt")}</code>
-                  </>
-                ) : (
-                  "No token found."
-                )}
+      <div className="row g-4 mt-3">
+        {[
+          { title: "Sessions actives", value: 128, clr: "primary" },
+          { title: "Utilisateurs", value: 32, clr: "success" },
+          { title: "Erreurs", value: 2, clr: "danger" },
+        ].map((s) => (
+          <div key={s.title} className="col-md-4">
+            <div className={`card border-${s.clr}`}>
+              <div className="card-body text-center">
+                <h3 className={`text-${s.clr}`}>{s.value}</h3>
+                <p className="mb-0">{s.title}</p>
               </div>
             </div>
           </div>
+        ))}
+      </div>
 
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h5 className="card-title">Quick Actions</h5>
-              <div className="d-grid gap-2">
-                <button className="btn btn-outline-danger" onClick={() => handleAction("Download Backup ZIP")}>
-                  📦 Télécharger backup.zip
-                </button>
-                <button className="btn btn-outline-secondary" onClick={() => handleAction("Flush Logs")}>
-                  🧹 Purger les logs
-                </button>
-                <button className="btn btn-outline-warning" onClick={() => handleAction("Reset Database")}>
-                  🛠️ Réinitialiser DB
-                </button>
-                <button className="btn btn-outline-info" onClick={() => handleAction("Enable WebShield")}>
-                  🛡️ Activer WebShield
-                </button>
-                <button className="btn btn-outline-success" onClick={() => handleAction("Enable MFA")}>
-                  🔐 Activer MFA
-                </button>
-                <button className="btn btn-outline-dark" onClick={() => handleAction("Generate audit report")}>
-                  🧬 Générer rapport d’audit
-                </button>
-              </div>
-              {response && <div className="alert alert-success mt-3">{response}</div>}
-            </div>
-          </div>
-        </div>
-
-        {/* Colonne 2 : État système + sécurité */}
-        <div className="col-md-6">
-          <div className="card shadow-sm mb-4">
-            <div className="card-body">
-              <h5 className="card-title">System Status</h5>
-              <ul className="list-group">
-                <li className="list-group-item">🔒 Encryption: <span className="text-success">Active</span></li>
-                <li className="list-group-item">📡 Network: <span className="text-success">OK</span></li>
-                <li className="list-group-item">🧠 AI Security: <span className="text-success">Online</span></li>
-                <li className="list-group-item">📈 CPU Load: <span className="text-warning">Moderate</span></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h5 className="card-title">Security Insights</h5>
-              <ul className="list-group">
-                <li className="list-group-item">🛡️ MFA Status: <span className="text-danger">Not enabled</span></li>
-                <li className="list-group-item">🔓 Last breach attempt: <span className="text-danger">4h ago</span></li>
-                <li className="list-group-item">🔐 JWTs issued: <span className="text-muted">12</span></li>
-                <li className="list-group-item">🧪 Recent audit score: <span className="text-success">92%</span></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="text-center small text-muted mt-3">
-            ✅ CloudSec certified • ISO 27001 Ready
-          </div>
-        </div>
+      <div className="mt-4 text-center">
+        <a href="/support/tickets" className="btn btn-outline-secondary">
+          📩 Ouvrir un ticket
+        </a>
       </div>
     </div>
   );

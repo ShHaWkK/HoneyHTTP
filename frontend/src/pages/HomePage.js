@@ -1,76 +1,105 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../theme/homepage.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    navigate("/login");
-  };
-
   return (
     <div className="homepage">
-      <header className="homepage-header bg-white shadow-sm p-3 d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center">
-          <img src="images/logo.jpg" alt="SecurePanel" style={{ width: "40px" }} className="me-2" />
-          <h4 className="m-0 text-primary">SecurePanel™</h4>
+      {/* Header */}
+      <header className="hp-header d-flex align-items-center justify-content-between px-4">
+        <div className="hp-logo d-flex align-items-center">
+          <img src="/images/logo.svg" alt="SecurePanel™" className="me-2" />
+          <span className="h4 mb-0">SecurePanel™</span>
         </div>
         <nav>
-          <button className="btn btn-outline-primary" onClick={handleLogin}>
-            Connexion
-          </button>
+          <ul className="nav">
+            <li className="nav-item"><Link className="nav-link" to="/">Accueil</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/features">Fonctionnalités</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/pricing">Tarifs</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/support">Support</Link></li>
+            <li className="nav-item">
+              <button className="btn btn-primary ms-3" onClick={() => navigate("/login")}>
+                Connexion
+              </button>
+            </li>
+          </ul>
         </nav>
       </header>
 
-      <main className="homepage-main text-center py-5">
-        <h1 className="display-5 fw-bold">Gouvernance Cloud & Sécurité Zéro Confiance</h1>
-        <p className="lead text-muted mt-3">
-          Gérez vos environnements cloud, vos identités, vos accès et vos configurations depuis un seul point de contrôle.
+      {/* Hero section */}
+      <section className="hp-hero text-center text-white d-flex flex-column justify-content-center px-4">
+        <h1 className="display-4 fw-bold">Gouvernance & Sécurité Cloud Zéro Confiance</h1>
+        <p className="lead my-4">
+          Surveillez, protégez et contrôlez vos environnements cloud depuis un portail centralisé.  
+          Rapide à déployer, simple à utiliser, sécurisé par défaut.
         </p>
-        <div className="mt-4">
-          <Link to="/login" className="btn btn-lg btn-primary">
-            🔐 Connexion sécurisée
+        <div>
+          <Link to="/login" className="btn btn-lg btn-light me-2">Essayer gratuitement</Link>
+          <Link to="/features" className="btn btn-lg btn-outline-light">En savoir plus</Link>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="hp-features py-5 px-4">
+        <div className="container">
+          <h2 className="text-center mb-5">Fonctionnalités clés</h2>
+          <div className="row g-4">
+            <div className="col-md-4">
+              <div className="card h-100 text-center border-0 shadow-sm">
+                <div className="card-body">
+                  <div className="mb-3 feature-icon">📊</div>
+                  <h5>Tableau de bord</h5>
+                  <p className="text-muted">Indicateurs en temps réel, alertes et rapports détaillés.</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card h-100 text-center border-0 shadow-sm">
+                <div className="card-body">
+                  <div className="mb-3 feature-icon">🔐</div>
+                  <h5>Auth & MFA</h5>
+                  <p className="text-muted">Authentification forte, journalisation granulaire des accès.</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card h-100 text-center border-0 shadow-sm">
+                <div className="card-body">
+                  <div className="mb-3 feature-icon">☁️</div>
+                  <h5>Stockage sécurisé</h5>
+                  <p className="text-muted">Gestion de buckets, sauvegardes chiffrées et contrôle des téléchargements.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Support */}
+      <section className="hp-support bg-light py-5 px-4">
+        <div className="container text-center">
+          <h2>Besoin d’aide ?</h2>
+          <p className="lead mb-4">
+            Ouvrez un ticket auprès de notre équipe support, nous sommes là 24/7 pour vous assister.
+          </p>
+          <Link to="/support" className="btn btn-outline-primary btn-lg">
+            Ouvrir un ticket
           </Link>
         </div>
+      </section>
 
-        {/* Features */}
-        <section className="container mt-5">
-          <h3>🧰 Fonctionnalités clés</h3>
-          <div className="row mt-4">
-            <div className="col-md-4">
-              <h5>📊 Dashboard centralisé</h5>
-              <p className="text-muted">Suivi en temps réel de l'état du système et des indicateurs de sécurité.</p>
-            </div>
-            <div className="col-md-4">
-              <h5>🔐 MFA & Access Logs</h5>
-              <p className="text-muted">Double authentification, contrôle granulaire des jetons et journalisation.</p>
-            </div>
-            <div className="col-md-4">
-              <h5>💾 Stockage sécurisé</h5>
-              <p className="text-muted">Sauvegardes chiffrées, buckets isolés et traçabilité des accès.</p>
-            </div>
+      {/* Footer */}
+      <footer className="hp-footer bg-dark text-white text-center py-3">
+        <div className="container">
+          <small>© 2025 SecurePanel Inc. Tous droits réservés.</small>
+          <div className="mt-2">
+            <a href="/terms" className="text-white me-3">Mentions légales</a>
+            <a href="/privacy" className="text-white">Confidentialité</a>
           </div>
-        </section>
-
-        {/* Certifications */}
-        <section className="bg-light py-4 mt-5">
-          <div className="container">
-            <h4>🔒 Certifié pour la conformité</h4>
-            <p className="text-muted">
-              Conforme aux standards ISO/IEC 27001, RGPD et CloudSec-Ready.
-            </p>
-            <div className="d-flex justify-content-center gap-4 mt-3">
-              <img src="images/cert1.png" alt="ISO27001" height="40" />
-              <img src="images/cert2.png" alt="RGPD" height="40" />
-              <img src="images/cert3.png" alt="CloudSec" height="40" />
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="homepage-footer bg-white border-top mt-5 py-3 text-center text-muted small">
-        © 2025 SecurePanel Inc. • Powered by SecureOps™ • Simulated SaaS Infrastructure
+        </div>
       </footer>
     </div>
   );

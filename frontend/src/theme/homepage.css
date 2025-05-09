@@ -1,88 +1,53 @@
-/* === homepage.css === */
-
 .homepage {
-  font-family: "Segoe UI", Roboto, sans-serif;
-  background-color: #f9fbfd;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
-.homepage-header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #dee2e6;
-  padding: 1rem 2rem;
+/* Header */
+.hp-header {
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+  height: 60px;
 }
-
-.homepage-header h4 {
-  font-weight: 600;
-  color: #007bff;
+.hp-logo img {
+  height: 32px;
 }
-
-.homepage-main {
-  flex: 1;
-  padding: 3rem 2rem;
-}
-
-.homepage-main h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #212529;
-}
-
-.homepage-main p {
-  font-size: 1.125rem;
-  color: #6c757d;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.homepage-main .btn-primary {
-  font-size: 1.125rem;
-  padding: 0.75rem 2rem;
-}
-
-.homepage-main h3 {
-  margin-top: 3rem;
-  font-weight: 600;
+.hp-header .nav-link {
   color: #333;
+  padding: 0.5rem;
 }
-
-.homepage-main h5 {
-  font-weight: 500;
+.hp-header .nav-link:hover {
   color: #007bff;
 }
 
-.homepage-main .text-muted {
-  font-size: 0.95rem;
+/* Hero */
+.hp-hero {
+  background: url("../pages/images/logo.jpg") center/cover no-repeat;
+  height: 60vh;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.hp-hero .btn {
+  min-width: 140px;
 }
 
-.homepage-main .row {
-  margin-top: 1.5rem;
+/* Features */
+.hp-features .feature-icon {
+  font-size: 2.5rem;
 }
 
-.bg-light {
-  background-color: #f8f9fa !important;
+/* Support */
+.hp-support {
+  background-color: #f8f9fa;
 }
 
-section.bg-light {
-  border-top: 1px solid #e5e5e5;
-  margin-top: 2rem;
+/* Footer */
+.hp-footer {
+  margin-top: auto;
 }
-
-section.bg-light img {
-  filter: grayscale(100%);
-  transition: filter 0.2s ease-in-out;
+.hp-footer a {
+  text-decoration: none;
 }
-
-section.bg-light img:hover {
-  filter: grayscale(0%);
-}
-
-.homepage-footer {
-  background-color: #ffffff;
-  color: #6c757d;
-  font-size: 0.875rem;
-  padding: 1rem;
-  border-top: 1px solid #dee2e6;
+.hp-footer a:hover {
+  text-decoration: underline;
 }

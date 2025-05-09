@@ -1,111 +1,63 @@
+// frontend/src/App.js
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Layout from "./pages/Layout";
-import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
+// PUBLIC
+import HomePage       from "./pages/HomePage";
+import Features       from "./pages/Features";
+import Pricing        from "./pages/Pricing";
+import Support        from "./pages/Support";         // via pages/Support/index.js
+import Login          from "./pages/Login";
 
-// Dashboard principal
-import Dashboard from "./pages/Dashboard";
+// ERROR
+import PermissionError from "./pages/Error/PermissionError";
 
-// Monitoring
-import Logs from "./pages/Monitoring/Logs";
-import Analytics from "./pages/Monitoring/Analytics";
+// PRIVATE (HONEYPOT)
+import Layout         from "./components/Layout";
+import Dashboard      from "./pages/Dashboard";
+import Logs           from "./pages/Monitoring/Logs";
+import Analytics      from "./pages/Monitoring/Analytics";
+import MFA            from "./pages/Security/MFA";
+import AccessLogs     from "./pages/Security/AccessLogs";
+import PhpConfig      from "./pages/Settings/PhpConfig";
+import Files          from "./pages/System/Files";
+import Users          from "./pages/Users/Users";
+import Profile        from "./pages/Users/Profile";
+import Tickets        from "./pages/Support/Tickets";
 
-// Security
-import MFA from "./pages/Security/MFA";
-import AccessLogs from "./pages/Security/AccessLogs";
-import AccessToken from "./pages/Security/AccessToken";
-
-// Settings
-import PhpConfig from "./pages/Settings/PhpConfig";
-//import NetworkConfig from "./pages/Settings/NetworkConfig";
-
-// Storage
-import CloudBuckets from "./pages/Storage/CloudBuckets";
-
-// System
-import Files from "./pages/System/Files";
-
-// Users
-import Users from "./pages/Users/Users";
-import Profile from "./pages/Users/Profile";
-
-// Auth
-import SSO from "./pages/Auth/SSO";
-
-// Pages diverses
-import AdminDump from "./pages/AdminDump";
-import AdminPanel from "./pages/AdminPanel";
-import Chat from "./pages/Chat";
-import CreateAdmin from "./pages/CreateAdmin";
-import Database from "./pages/System/Database";
-import Exfiltration from "./pages/Security/Exfiltration";
-import SpyAdmin from "./pages/SpyAdmin";
-import Upload from "./pages/Users/Upload";
-import XSSForm from "./pages/XSSForm";
-import WordPress from "./pages/System/WordPress";
-
-import { startTracking } from "./pages/tracker";
 import "./theme/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
-  useEffect(() => {
-    startTracking();
-  }, []);
-
+export default function App() {
+  useEffect(() => { document.title = "SecurePanel™"; }, []);
   return (
     <BrowserRouter>
       <Routes>
-        {/* Routes publiques, sans sidebar */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
+        {/* PUBLIC */}
+        <Route path="/"        element={<HomePage/>} />
+        <Route path="/features"element={<Features/>} />
+        <Route path="/pricing" element={<Pricing/>} />
+        <Route path="/support" element={<Support/>} />
+        <Route path="/login"   element={<Login/>} />
+        <Route path="/error/502" element={<PermissionError/>} />
 
-        {/* Routes privées avec layout sécurisé */}
-        <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-
-          {/* Monitoring */}
-          <Route path="/system/logs" element={<Logs />} />
-          <Route path="/analytics" element={<Analytics />} />
-
-          {/* Security */}
-          <Route path="/security/mfa" element={<MFA />} />
-          <Route path="/security/access-logs" element={<AccessLogs />} />
-          <Route path="/security/access-token" element={<AccessToken />} />
-
-          {/* Settings */}
-          <Route path="/settings/php-config" element={<PhpConfig />} />
-
-          {/* Storage */}
-          <Route path="/storage/buckets" element={<CloudBuckets />} />
-
-          {/* System */}
-          <Route path="/system/files" element={<Files />} />
-
-          {/* Users */}
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/profile" element={<Profile />} />
-
-          {/* Auth (phishing page) */}
-          <Route path="/auth/sso" element={<SSO />} />
-
-          {/* Divers et honeypot */}
-          <Route path="/admin-dump" element={<AdminDump />} />
-          <Route path="/admin-panel" element={<AdminPanel />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/admin-create" element={<CreateAdmin />} />
-          <Route path="/database" element={<Database />} />
-          <Route path="/exfiltration" element={<Exfiltration />} />
-          <Route path="/spy" element={<SpyAdmin />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/xss" element={<XSSForm />} />
-          <Route path="/wordpress" element={<WordPress />} />
+        {/* PRIVATE */}
+        <Route element={<Layout/>}>
+          <Route path="/dashboard"            element={<Dashboard/>} />
+          <Route path="/system/logs"          element={<Logs/>} />
+          <Route path="/analytics"            element={<Analytics/>} />
+          <Route path="/security/mfa"         element={<MFA/>} />
+          <Route path="/security/access-logs" element={<AccessLogs/>} />
+          <Route path="/settings/php-config"  element={<PhpConfig/>} />
+          <Route path="/system/files"         element={<Files/>} />
+          <Route path="/users"                element={<Users/>} />
+          <Route path="/users/profile"        element={<Profile/>} />
+          <Route path="/support/tickets"      element={<Tickets/>} />
         </Route>
+
+        {/* FALLBACK */}
+        <Route path="*" element={<Navigate to="/" replace/>}/>
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
