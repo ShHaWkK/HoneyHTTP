@@ -4,7 +4,7 @@ export default function LogViewer() {
   const [logs, setLogs] = useState("");
 
   const fetchLogs = async () => {
-    const res = await fetch("http://localhost:8080/logs");
+    const res = await fetch("http://localhost:8081/logs");
     const text = await res.text();
     setLogs(text);
   };

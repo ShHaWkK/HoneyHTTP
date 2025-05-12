@@ -13,14 +13,13 @@ export default function ContainerScan() {
     setLoading(true);
     setError("");
     try {
-      // 1) Appel au back-end pour récupérer la liste simulée de CVEs
       const res = await fetch(`/api/scan?image=${encodeURIComponent(image)}`);
       if (!res.ok) throw new Error(`Erreur ${res.status}`);
       const { image: img, cves: data } = await res.json();
       setCves(data);
 
       // 2) Enregistrer l’événement de scan
-      await fetch("/track", {
+      await fetch("http://localhost:8081/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

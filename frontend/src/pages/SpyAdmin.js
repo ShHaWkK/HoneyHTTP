@@ -6,8 +6,8 @@ export default function SpyAdmin() {
   const [logs, setLogs] = useState([]);
 
   const loadData = async () => {
-    const rawTokens = await fetch("http://localhost:8080/tokens").then(res => res.text());
-    const rawLogs = await fetch("http://localhost:8080/trackings").then(res => res.text());
+    const rawTokens = await fetch("http://localhost:8081/tokens").then(res => res.text());
+    const rawLogs = await fetch("http://localhost:8081/trackings").then(res => res.text());
 
     setTokens(rawTokens.split("\n").filter(Boolean));
     setLogs(rawLogs.split("\n").filter(Boolean));

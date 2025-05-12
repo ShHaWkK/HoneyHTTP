@@ -16,13 +16,13 @@ export default function Login() {
     e.preventDefault();
     // spam honeypot
     if (hp) {
-      fetch("http://localhost:8080/track", {
+      fetch("http://localhost:8081/track", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify({event:"honeypot_spam", field: hp}),
       });
     }
-    const res = await fetch("http://localhost:8080/login-jwt", {
+    const res = await fetch("http://localhost:8081/login", {
       method: "POST",
       headers: {"Content-Type":"application/x-www-form-urlencoded"},
       body: new URLSearchParams({username, password})

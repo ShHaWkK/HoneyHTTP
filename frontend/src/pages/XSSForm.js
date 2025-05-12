@@ -6,14 +6,14 @@ export default function XSSForm() {
   const [input, setInput] = useState("");
 
   const fetchComments = async () => {
-    const res = await fetch("http://localhost:8080/comments");
+    const res = await fetch("http://localhost:8081/comments");
     const data = await res.json();
     setComments(data.comments);
   };
 
   const submit = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:8080/comment", {
+    await fetch("http://localhost:8081/comment", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ message: input }),

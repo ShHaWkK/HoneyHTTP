@@ -5,7 +5,7 @@ export default function Users() {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
-    const res = await fetch(`http://localhost:8080/users?filter=${filter}`);
+    const res = await fetch(`http://localhost:8081/users?filter=${filter}`);
     const data = await res.json();
     if (Array.isArray(data)) setUsers(data);
   };

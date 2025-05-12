@@ -4,7 +4,7 @@ export default function AccessLogs() {
   const [logs, setLogs] = useState([]);
 
   const fetchLogs = async () => {
-    const res = await fetch("http://localhost:8080/access-logs");
+    const res = await fetch("http://localhost:8081/access-logs");
     const data = await res.json();
     setLogs(data.logs || []);
   };

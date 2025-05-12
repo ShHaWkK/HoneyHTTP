@@ -24,7 +24,7 @@ if ($username == 'admin' && $password == 'supersecret') {
              "eyJ1c2VyIjoiYWRtaW4iLCJleHAiOjQ3OTk5OTk5OTl9." +
              "fakeSIGNATURE12345");
 
-    await fetch("http://localhost:8080/track/token-jwt");
+    await fetch("http://localhost:8081/track/token-jwt");
   };
 
   return (

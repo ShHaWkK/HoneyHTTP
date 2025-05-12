@@ -5,7 +5,7 @@ export default function AdminDump() {
   const [dump, setDump] = useState("");
 
   const getDump = async () => {
-    const res = await fetch(`http://localhost:8080/dump?filter=${encodeURIComponent(filter)}`);
+    const res = await fetch(`http://localhost:8081/dump?filter=${encodeURIComponent(filter)}`);
     const data = await res.json();
     setDump(data.dump);
   };

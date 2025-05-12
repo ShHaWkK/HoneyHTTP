@@ -7,7 +7,7 @@ export default function Profile() {
   const upload = async () => {
     const form = new FormData();
     form.append("file", file);
-    const res = await fetch("http://localhost:8080/profile/upload", {
+    const res = await fetch("http://localhost:8081/profile/upload", {
       method: "POST",
       body: form
     });

@@ -8,7 +8,7 @@ export default function CreateAdmin() {
 
   const submit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:8080/admin/create", {
+    const res = await fetch("http://localhost:8081/admin/create", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ username, password }),

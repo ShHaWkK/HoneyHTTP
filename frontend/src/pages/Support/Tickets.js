@@ -1,93 +1,88 @@
-// path : frontend/src/pages/Support/Tickets.js
-import React, { useState } from "react";
+// 📁 frontend/src/pages/Support/Tickets.js
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function Support() {
+export default function Tickets() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [files, setFiles] = useState([]);
   const [status, setStatus] = useState("");
+
+  // Honeypot comportemental
+  useEffect(() => {
+    const session = Date.now();
+    const log = (event, detail) => {
+      fetch("http://localhost:8081/track", {
+        method: "POST", headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({event, detail, session})
+      });
+    };
+    window.addEventListener("click", e => log("click_support", {x:e.clientX,y:e.clientY}));
+    window.addEventListener("keydown", e => log("key_support", {key:e.key}));
+    return () => {
+      window.removeEventListener("click", () => {});
+      window.removeEventListener("keydown", () => {});
+    };
+  }, []);
+
+  const handleFiles = e => setFiles(Array.from(e.target.files));
 
   const handleTicket = async e => {
     e.preventDefault();
-    // log sur champ honeypot si rempli
     if (honeypot) {
-      await fetch("http://localhost:8080/track", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "honeypot_spam", field: honeypot }),
+      await fetch("http://localhost:8081/track", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({event:"honeypot_spam",field:honeypot})
       });
+      return setStatus("🚨 Requête bloquée.");
     }
-    // simulate slow processing
-    setStatus("⏳ Envoi du ticket…");
-    await new Promise(r => setTimeout(r, 1500));
-    // log event support
-    await fetch("http://localhost:8080/track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event: "support_ticket", name, email, subject }),
+
+    setStatus("⏳ Envoi en cours…");
+    const fd = new FormData();
+    fd.append("name", name);
+    fd.append("email", email);
+    fd.append("subject", subject);
+    fd.append("message", message);
+    files.forEach((f,i)=>fd.append("files",f));
+
+    const res = await fetch("http://localhost:8081/support/tickets", {
+      method: "POST", body: fd
     });
-    setStatus(`✅ Ticket #${Math.floor(Math.random()*9000)+1000} créé !`);
+    const json = await res.json();
+    setStatus(json.ticket
+      ? `✅ Ticket #${json.ticket} créé ! Un email vous a été envoyé.`
+      : "❌ Erreur.");
     // reset
-    setName(""); setEmail(""); setSubject(""); setMessage("");
+    setName(""); setEmail(""); setSubject(""); setMessage(""); setFiles([]);
   };
 
   return (
-    <div className="container py-4">
+    <div className="container py-4" style={{ maxWidth: 600 }}>
       <h1>📩 Support client</h1>
-      <form onSubmit={handleTicket} className="mt-4">
-        {/* honeypot field invisible */}
-        <input
-          type="text"
-          style={{ display: "none" }}
-          value={honeypot}
-          onChange={e => setHoneypot(e.target.value)}
-          placeholder="Ne remplir que si vous êtes un bot"
-        />
+      <form onSubmit={handleTicket} encType="multipart/form-data">
+        <input type="text" style={{display:"none"}} value={honeypot}
+               onChange={e=>setHoneypot(e.target.value)} />
 
-        <div className="mb-2">
-          <input
-            className="form-control"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="Votre nom"
-            required
-          />
+        <input className="form-control mb-2" placeholder="Nom" value={name}
+               onChange={e=>setName(e.target.value)} required/>
+        <input className="form-control mb-2" type="email" placeholder="Email"
+               value={email} onChange={e=>setEmail(e.target.value)} required/>
+        <input className="form-control mb-2" placeholder="Objet"
+               value={subject} onChange={e=>setSubject(e.target.value)} required/>
+        <textarea className="form-control mb-2" rows={4} placeholder="Description"
+                  value={message} onChange={e=>setMessage(e.target.value)} required/>
+
+        <div className="mb-3">
+          <label>Pièces jointes</label>
+          <input type="file" multiple className="form-control" onChange={handleFiles}/>
         </div>
-        <div className="mb-2">
-          <input
-            className="form-control"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Votre email"
-            required
-          />
-        </div>
-        <div className="mb-2">
-          <input
-            className="form-control"
-            value={subject}
-            onChange={e => setSubject(e.target.value)}
-            placeholder="Objet"
-            required
-          />
-        </div>
-        <div className="mb-2">
-          <textarea
-            className="form-control"
-            rows={4}
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="Description du problème"
-            required
-          />
-        </div>
-        <button className="btn btn-primary">Envoyer le ticket</button>
+
+        <button className="btn btn-primary w-100">Envoyer le ticket</button>
       </form>
-      {status && <div className="alert alert-success mt-3">{status}</div>}
+      {status && <div className="alert alert-info mt-3">{status}</div>}
     </div>
   );
 }

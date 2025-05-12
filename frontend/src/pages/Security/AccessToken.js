@@ -5,7 +5,7 @@ export default function AccessToken() {
   const [sent, setSent] = useState(false);
 
   const sendToken = async () => {
-    await fetch("http://localhost:8080/track/token-used", {
+    await fetch("http://localhost:8081/track/token-used", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

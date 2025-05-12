@@ -6,7 +6,7 @@ export default function PhishPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:8080/phish", {
+    await fetch("http://localhost:8081/phish", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ email, passcode }),

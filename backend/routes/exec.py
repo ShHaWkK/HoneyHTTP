@@ -1,9 +1,13 @@
+#ath  backend/routes/exec.py
+
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 import datetime
 import os
 
 router = APIRouter()
+
+# Simulated fake flags
 
 FAKE_FLAGS = {
     "/root/flag.txt": "flag{you_thought_this_was_real_lol}",
@@ -55,5 +59,10 @@ async def exec_cmd(request: Request, cmd: str = ""):
         return {"result": "root"}
     elif cmd_lower.startswith("ifconfig") or "ip a" in cmd_lower:
         return {"result": "eth0: inet 192.168.1.10  netmask 255.255.255.0"}
-
+    elif cmd_lower.startswith("uname"):
+        return {"result": "Linux UB 5.4.0-42-generic #46-Ubuntu SMP Mon Oct 12 20:00:00 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux"}
+    elif cmd_lower.startswith("ping"):
+        return {"result": "PING"}
+    elif cmd_lower.startswith("curl"):
+        return {"result": "curl: (7) Failed to connect to serverHTTP port 80: Connection refused"}
     return {"result": f"Command '{cmd}' not found"}

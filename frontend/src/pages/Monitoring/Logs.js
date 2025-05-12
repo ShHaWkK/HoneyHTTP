@@ -14,7 +14,7 @@ export default function Logs() {
       setLogs("");
     } else {
       try {
-        const res = await fetch("http://localhost:8080/logs");
+        const res = await fetch("http://localhost:8081/logs");
         const text = await res.text();
         setLogs(text);
       } catch {

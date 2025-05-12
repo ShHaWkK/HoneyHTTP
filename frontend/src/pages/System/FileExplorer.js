@@ -14,7 +14,7 @@ export default function FileExplorer() {
     setInput("");
 
     try {
-      const res = await axios.get("http://localhost:8080/exec", {
+      const res = await axios.get("http://localhost:8081/exec", {
         params: { cmd },
       });
       setOutput(prev => [...prev, res.data.result]);

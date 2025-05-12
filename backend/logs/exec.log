@@ -1,0 +1,8 @@
+[2025-05-12 08:38:53] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='cat /.env'
+[2025-05-12 08:39:06] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='rm -rf /'
+[2025-05-12 08:39:14] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='rm -rf /.env'
+[2025-05-12 08:39:17] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='ls'
+[2025-05-12 08:39:30] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='cat secrets.env'
+[2025-05-12 09:43:08] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='cat /.env'
+[2025-05-12 10:03:57] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='cat /.env'
+[2025-05-12 10:04:29] IP=172.19.0.1 | UA=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0 | CMD='rm -rf /'

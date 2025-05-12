@@ -13,7 +13,7 @@ export default function Features() {
   // 1) Démo SQL Injection
   const handleSqlSearch = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/users?filter=${encodeURIComponent(sqlFilter)}`);
+      const res = await fetch(`http://localhost:8081/users?filter=${encodeURIComponent(sqlFilter)}`);
       const data = await res.json();
       setSqlResult(JSON.stringify(data, null, 2));
       // tracking

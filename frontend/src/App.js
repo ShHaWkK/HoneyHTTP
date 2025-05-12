@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage       from "./pages/HomePage";
 import Features       from "./pages/Features";
 import Pricing        from "./pages/Pricing";
-import Support        from "./pages/Support";         // via pages/Support/index.js
+import Support        from "./pages/Support";
 import Login          from "./pages/Login";
 
 // ERROR
@@ -24,6 +24,7 @@ import Files          from "./pages/System/Files";
 import Users          from "./pages/Users/Users";
 import Profile        from "./pages/Users/Profile";
 import Tickets        from "./pages/Support/Tickets";
+import MyTickets      from "./pages/Support/MyTickets";
 
 import "./theme/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/users"                element={<Users/>} />
           <Route path="/users/profile"        element={<Profile/>} />
           <Route path="/support/tickets"      element={<Tickets/>} />
+          <Route path="/support/my-tickets" element={<MyTickets/>} />
         </Route>
 
         {/* FALLBACK */}

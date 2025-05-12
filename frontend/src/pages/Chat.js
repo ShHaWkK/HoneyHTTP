@@ -8,7 +8,7 @@ export default function Chat() {
 
   const send = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:8080/chat/send", {
+    await fetch("http://localhost:8081/chat/send", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ username, message }),
@@ -18,7 +18,7 @@ export default function Chat() {
   };
 
   const fetchMessages = async () => {
-    const res = await fetch("http://localhost:8080/chat");
+    const res = await fetch("http://localhost:8081/chat");
     const data = await res.json();
     setMessages(data.messages);
   };
