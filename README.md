@@ -1,5 +1,6 @@
 # HoneyHTTP
 
+Honeypot HTTP haute interaction. Le backend FastAPI expose des routes trompeuses et le frontend React s'y connecte pour simuler une interface d'administration.
 
 ## Langages Utilisés : 
 - Python FastAPI 
@@ -22,6 +23,9 @@ L'objectif est d'enregistrer toutes les attaques et détecter des patterns malve
     📌wp-config.php avec de fausses clés API
     📌database.sql avec de faux utilisateurs/mots de passe
 
+- **Conversation fictive entre administrateurs**
+    - Discussion sur un serveur SSH exposé
+    - Exemple : Alexandre UZAN demande à Julien Khalifa l'adresse IP et le port (10.0.0.42:2222, clé ed25519 factice)
 
 - **Capture et Relecture des Attaques**
 L'Objectif est d'enregistrer toutes les sessions et pouvoir les rejouer.

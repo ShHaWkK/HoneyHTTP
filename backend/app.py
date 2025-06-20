@@ -20,6 +20,7 @@ from routes import (
     track,          # suivi comportemental
     upload,         # téléversement standard
     upload_profile, # upload de profils
+    admin_chat,     # conversation administrative fictive
     xss,            # formulaire commentaire piégé
     sql_dump,       # simulation SQL dump (ex: admin 1=1)
     users           # liste utilisateurs / admin-create
@@ -55,6 +56,7 @@ app.include_router(rce.router)
 app.include_router(track.router)
 app.include_router(upload.router)
 app.include_router(upload_profile.router)
+app.include_router(admin_chat.router)
 app.include_router(xss.router)
 app.include_router(sql_dump.router)
 app.include_router(support.router)
