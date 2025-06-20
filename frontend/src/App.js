@@ -25,6 +25,7 @@ import Users          from "./pages/Users/Users";
 import Profile        from "./pages/Users/Profile";
 import Tickets        from "./pages/Support/Tickets";
 import MyTickets      from "./pages/Support/MyTickets";
+import AdminConversation from "./pages/AdminConversation";
 
 import "./theme/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/users/profile"        element={<Profile/>} />
           <Route path="/support/tickets"      element={<Tickets/>} />
           <Route path="/support/my-tickets" element={<MyTickets/>} />
+          <Route path="/admin/chat"           element={<AdminConversation/>} />
         </Route>
 
         {/* FALLBACK */}
