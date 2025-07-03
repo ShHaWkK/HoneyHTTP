@@ -1,7 +1,8 @@
 # Build React
-FROM node:18 AS build
+FROM node:18-bullseye-slim AS build
 WORKDIR /app
 COPY . .
+
 
 # Installe les dépendances + sass nécessaire pour .scss
 RUN npm install
@@ -11,7 +12,7 @@ RUN npm install sass
 RUN npm run build
 
 # Étape finale : serveur Node.js léger avec `serve`
-FROM node:18 AS production
+FROM node:18-bullseye-slim AS production
 WORKDIR /app
 RUN npm install -g serve
 COPY --from=build /app/build /app/build

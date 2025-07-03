@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.4'
 
 services:
   backend:
@@ -11,13 +11,45 @@ services:
       - ./backend/logs:/app/logs
       - ./backend/uploads:/app/uploads
     restart: unless-stopped
+    
+    # Configuration de logging pour Docker
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
+        # Labels pour identifier les logs honeypot
+        labels: "service=honeypot-backend,type=honeypot,environment=production"
+    
+    # Variables d'environnement pour le logging
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_TO_STDOUT=true
+      - HONEYPOT_NAME=HoneyHTTP
+      - HONEYPOT_HOST=deb-http
 
   frontend:
     build:
       context: ./frontend
     container_name: honeypot-frontend
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    mem_limit: 2G
     ports:
       - "3000:3000"
     depends_on:
       - backend
+    environment:
+      - NODE_ENV=production
     restart: unless-stopped
+    
+    # Configuration de logging pour le frontend aussi
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+        labels: "service=honeypot-frontend,type=honeypot,environment=production"
