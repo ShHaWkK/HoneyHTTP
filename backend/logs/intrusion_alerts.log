@@ -4,3 +4,5 @@
 [ALERT] ENV file requested by 172.19.0.1 - CMD: cat /.env
 [ALERT] ENV file requested by 172.19.0.1 - CMD: cat /.env
 [ALERT] Attempted deletion by 172.19.0.1 - CMD: rm -rf /
+[ALERT] ENV file requested by 192.168.32.1 - CMD: cat /.env
+[ALERT] Attempted deletion by 192.168.32.1 - CMD: rm -rf /

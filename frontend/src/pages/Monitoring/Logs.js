@@ -18,7 +18,7 @@ export default function Logs() {
         const text = await res.text();
         setLogs(text);
       } catch {
-        setError("Erreur de connexion");
+        setError("Logs : Erreur de connexion");
       }
     }
     setLoading(false);

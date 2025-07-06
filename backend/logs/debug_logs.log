@@ -1,0 +1,83 @@
+2025-07-06 17:51:12,239 - honeypot - INFO - HoneyHTTP honeypot started
+2025-07-06 17:51:13,472 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:13,480 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:13,480 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:18,435 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:18,440 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:18,441 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:20,276 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:20,291 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:20,292 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:21,123 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:21,134 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:21,135 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:21,719 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:21,726 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:21,726 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:22,306 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:22,324 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:22,325 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:27,303 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:27,310 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:27,310 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:32,304 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:32,324 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:32,324 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:37,303 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:37,308 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:37,309 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:47,304 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:47,313 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:47,314 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:52,304 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:52,312 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:52,312 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:51:57,304 - honeypot - INFO - HTTP Request
+2025-07-06 17:51:57,311 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:51:57,311 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:02,303 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:02,310 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:02,311 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:07,305 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:07,312 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:07,312 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:12,304 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:12,312 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:12,312 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:17,305 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:17,313 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:17,313 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:22,305 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:22,310 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:22,310 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:27,305 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:27,312 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:27,312 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:32,306 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:32,325 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:32,325 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:37,305 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:37,312 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:37,313 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:42,307 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:42,314 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:42,315 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:47,306 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:47,374 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:47,375 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:52,307 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:52,313 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:52,314 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:52:57,307 - honeypot - INFO - HTTP Request
+2025-07-06 17:52:57,312 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:52:57,313 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:53:02,307 - honeypot - INFO - HTTP Request
+2025-07-06 17:53:02,315 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:53:02,315 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:53:07,308 - honeypot - INFO - HTTP Request
+2025-07-06 17:53:07,316 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:53:07,316 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:53:12,308 - honeypot - INFO - HTTP Request
+2025-07-06 17:53:12,316 - honeypot.attacks - ERROR - Application error - potential attack
+2025-07-06 17:53:12,317 - honeypot.attacks - ERROR - 500 - Internal server error
+2025-07-06 17:53:17,397 - honeypot - INFO - HoneyHTTP honeypot stopped

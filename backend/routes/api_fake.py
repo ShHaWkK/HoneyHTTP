@@ -36,7 +36,7 @@ FAKE_USERS = [
     {"id": 30, "username": "zack30", "email": "zack30@domain.com", "password": "zackpass", "role": "viewer", "lastLogin": "2025-04-08 10:00:00"}
 ]
 
-
+"""
 @router.get("/users")
 async def list_users(request: Request, filter: str = "", x_custom: str = Header(None)):
     log_request(request, f"/users?filter={filter}&X-Custom={x_custom}")
@@ -52,6 +52,11 @@ async def list_users(request: Request, filter: str = "", x_custom: str = Header(
     
     return {"error": "No users matched."}
 
+@router.get("/users")
+async def list_users(request: Request, filter: str = ""):
+    # REDIRECTION VERS LA VRAIE API
+    return {"redirect": "Use /api/users instead"}
+"""
 
 @router.post("/admin/create")
 async def create_admin(request: Request, username: str = Form(...), password: str = Form(...)):

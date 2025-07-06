@@ -18,7 +18,7 @@ COPY . .
 RUN mkdir -p uploads logs assets
 
 # Expose le port FastAPI
-EXPOSE 8080
+EXPOSE 8081
 
 # Lance FastAPI
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8081", "--reload"]

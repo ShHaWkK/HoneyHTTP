@@ -43,6 +43,7 @@ export default function Sidebar() {
         <ul className="nav flex-column">
           <li><Link className="nav-link text-white" to="/users">👥 Liste</Link></li>
           <li><Link className="nav-link text-white" to="/users/profile">👤 Profil</Link></li>
+          <li><Link className="nav-link text-white" to="/users/chat">💬 Chat</Link></li>
         </ul>
       </div>
 

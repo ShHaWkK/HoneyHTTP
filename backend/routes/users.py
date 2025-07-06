@@ -1,26 +1,84 @@
+# Ajoutez ceci dans backend/routes/users.py
+from fastapi import APIRouter, Request, Query
+import sqlite3
 
-from fastapi import APIRouter, Request, Header, Form
-from utils import log_request
-from datetime import datetime
+router = APIRouter()  # ← CETTE LIGNE MANQUAIT !
 
-router = APIRouter()
+from fastapi import HTTPException
+from fastapi.responses import JSONResponse
 
-FAKE_USERS = [
-    {"id": 1, "username": "admin", "email": "admin@securepanel.io", "password": "admin123", "role": "admin", "lastLogin": "2025-04-10 12:32"},
-    {"id": 2, "username": "sysadmin", "email": "sysadmin@corp.io", "password": "toor", "role": "superuser", "lastLogin": "2025-04-10 09:12"},
-    {"id": 3, "username": "devops1", "email": "devops@cloud.io", "password": "cloud123", "role": "devops", "lastLogin": "2025-04-08 17:00"},
-    {"id": 4, "username": "monitoring", "email": "monitor@tool.io", "password": "zabbixpass", "role": "observer", "lastLogin": "2025-04-05 08:30"},
-    {"id": 5, "username": "vpnuser", "email": "vpn@remote.io", "password": "vpn123", "role": "user", "lastLogin": "2025-03-25 22:00"}
-]
+def get_session_user(request: Request):
+    """Récupérer l'utilisateur de session depuis les headers et vérifier son rôle dans la DB"""
+    username = request.headers.get('X-Username', '')
+    
+    if not username:
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            username = auth_header[7:]
+    
+    if username:
+        try:
+            conn = sqlite3.connect("honeypot.db")
+            cursor = conn.cursor()
+            cursor.execute("SELECT role FROM users WHERE username = ?", (username,))
+            result = cursor.fetchone()
+            conn.close()
+            
+            if result:
+                return result[0]
+        except Exception:
+            pass
+    
+    return 'guest'
 
-@router.get("/users")
-async def list_users(request: Request, filter: str = "", x_custom: str = Header(None)):
-    log_request(request, f"/users?filter={filter}&X-Custom={x_custom}")
+@router.get("/api/users")
+async def get_users_real(request: Request, filter: str = Query("")):
+    """API pour récupérer la liste des utilisateurs depuis SQLite"""
+    session_user = get_session_user(request)
+    is_admin = (session_user == 'admin')
+    
+    try:
+        conn = sqlite3.connect("honeypot.db")
+        cursor = conn.cursor()
+        
+        if filter and filter.strip():
+            cursor.execute(
+                "SELECT id, username, password, role FROM users WHERE username LIKE ? OR CAST(id AS TEXT) LIKE ? ORDER BY id", 
+                (f'%{filter.strip()}%', f'%{filter.strip()}%')
+            )
+        else:
+            cursor.execute("SELECT id, username, password, role FROM users ORDER BY id")
+        
+        users_data = cursor.fetchall()
+        conn.close()
+        
+        users = []
+        for user in users_data:
+            user_obj = {
+                'id': user[0],
+                'username': user[1],
+                'email': f"{user[1]}@honeypot.local",
+                'role': user[3] if len(user) > 3 else 'user',
+                'lastLogin': '2025-07-04 12:00:00'
+            }
+            
+            if is_admin:
+                user_obj['password'] = user[2]
+            
+            users.append(user_obj)
+        
+        return users
+        
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
-    if any(u["username"].startswith(filter.lower()) for u in FAKE_USERS):
-        return [u for u in FAKE_USERS if u["username"].startswith(filter.lower())]
-
-    if x_custom and "token" in x_custom.lower():
-        return FAKE_USERS
-
-    return {"error": "No users matched."}
+@router.get("/api/auth/check")
+async def check_auth_real(request: Request):
+    """Vérifier le statut admin de l'utilisateur"""
+    session_user = get_session_user(request)
+    is_admin = (session_user == 'admin')
+    
+    return {
+        'user': session_user,
+        'isAdmin': is_admin
+    }

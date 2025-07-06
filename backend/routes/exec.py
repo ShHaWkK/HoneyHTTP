@@ -15,7 +15,7 @@ FAKE_FLAGS = {
     "/.env": "APP_SECRET=flag{env_stolen_fake}"
 }
 
-@router.get("/exec")
+@router.get("/")
 async def exec_cmd(request: Request, cmd: str = ""):
     client_ip = request.client.host
     user_agent = request.headers.get("user-agent", "Unknown")

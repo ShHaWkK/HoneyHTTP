@@ -258,3 +258,25 @@
 [2025-06-30 12:57:34.683143] 172.18.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - LOGIN_FAIL root
 [2025-06-30 12:59:44.634871] 172.18.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - /users?filter=&X-Custom=None
 [2025-06-30 13:04:44.346562] 172.18.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - LOGIN_FAIL root
+[2025-07-04 08:22:03.560607] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=admin
+[2025-07-04 08:50:44.413772] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 08:50:53.147371] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 08:51:24.122833] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 08:53:09.946528] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 08:53:31.278121] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - LOCKED_OUT username=root
+[2025-07-04 08:55:21.652235] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 09:08:51.879168] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 09:31:54.159142] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - FAILED_LOGIN username=root
+[2025-07-04 09:32:17.775927] 172.19.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - CHAT guest: lkkl
+[2025-07-04 13:37:23.095286] 192.168.100.69 - curl/8.12.1 - LEAKED: /.env
+[2025-07-04 13:51:16.679258] 192.168.100.69 - curl/8.12.1 - LEAKED: /.env
+[2025-07-04 14:39:23.740732] 192.168.100.69 - curl/8.12.1 - /users?filter=&X-Custom=None
+[2025-07-04 15:01:27.963943] 192.168.100.69 - curl/8.12.1 - /users?filter=&X-Custom=None
+[2025-07-04 15:26:10.351673] 192.168.100.69 - curl/8.12.1 - /users?filter=&X-Custom=None
+[2025-07-04 15:30:26.340648] 192.168.100.69 - curl/8.12.1 - /users?filter=&X-Custom=None
+[2025-07-04 15:40:46.782982] 192.168.100.69 - curl/8.12.1 - /users?filter=&X-Custom=None
+[2025-07-04 20:28:48.593074] 172.22.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - /users?filter=&X-Custom=None
+[2025-07-04 20:28:48.770719] 172.22.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - /users?filter=&X-Custom=None
+[2025-07-04 20:35:20.845126] 172.22.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - /users?filter=&X-Custom=None
+[2025-07-04 20:35:20.876591] 172.22.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - /users?filter=&X-Custom=None
+[2025-07-04 20:35:45.572134] 172.22.0.1 - Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0 - /users?filter=&X-Custom=None

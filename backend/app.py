@@ -3,9 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import time
 import logging
+from fastapi import FastAPI, APIRouter, Request, Form, UploadFile, File, Header, Query
+from fastapi.responses import JSONResponse, PlainTextResponse
+app = FastAPI(title="HTTP Honeypot")
+router = APIRouter()
+
+print("APP est uilisé")
 
 # DB et init
-from database import init_db
+from main import init_db
 
 # Import du système de logging honeypot
 from logging_config import setup_honeypot_logging, log_request
@@ -19,7 +25,7 @@ from routes import (
     exec,           # faux terminal /exec
     file,           # accès fichiers type /.env, /.git/
     leaks,          # fichiers statiques /backup.zip, /.env, etc
-    logs,           # affichage des logs, tokens, tracking
+    #logs,           # affichage des logs, tokens, tracking
     monitor,        # /analytics, /logs, etc
     phish,          # simulation login OAuth
     rce,            # pièges remote code execution
@@ -295,7 +301,7 @@ app.include_router(file.router, prefix="/files", tags=["files"])
 app.include_router(leaks.router, prefix="/leaks", tags=["leaks"])
 
 # Routes de logs
-app.include_router(logs.router, prefix="/logs", tags=["logs"])
+#app.include_router(logs.router, prefix="/logs", tags=["logs"])
 
 # Routes de monitoring
 app.include_router(monitor.router, prefix="/monitor", tags=["monitoring"])
@@ -326,6 +332,8 @@ app.include_router(sql_dump.router, prefix="/database", tags=["database"])
 
 # === GESTIONNAIRE D'ERREURS ===
 
+
+
 @app.exception_handler(404)
 async def not_found_handler(request: Request, exc):
     """Gestionnaire personnalisé pour les erreurs 404"""
@@ -340,11 +348,15 @@ async def not_found_handler(request: Request, exc):
         'threat_score': 5
     })
     
-    return {
-        "error": "Not Found",
-        "message": "The requested resource was not found",
-        "status_code": 404
-    }
+    # Retourner une JSONResponse au lieu d'un dict
+    return JSONResponse(
+        status_code=404,
+        content={
+            "error": "Not Found",
+            "message": "The requested resource was not found",
+            "status_code": 404
+        }
+    )
 
 @app.exception_handler(500)
 async def internal_error_handler(request: Request, exc):
@@ -392,7 +404,117 @@ if __name__ == "__main__":
     uvicorn.run(
         app, 
         host="0.0.0.0", 
-        port=8000, 
+        port=8081, 
         log_level="info",
         access_log=False  # Désactivé car on utilise notre propre système de logging
     )
+
+# === API UTILISATEURS DYNAMIQUE ===
+import sqlite3
+
+def get_session_user_real(request: Request):
+    # D'abord vérifier le Bearer token
+    auth_header = request.headers.get('Authorization', '')
+    if auth_header.startswith('Bearer '):
+        token = auth_header[7:]  # Enlever "Bearer "
+        
+        # Si c'est un token JWT fake, extraire le username
+        if token.startswith('jwt_fake_'):
+            username = token[9:]  # Enlever "jwt_fake_"
+        else:
+            username = token  # Sinon utiliser le token directement
+        
+        # Vérifier en base
+        try:
+            conn = sqlite3.connect("honeypot.db")
+            cursor = conn.cursor()
+            cursor.execute("SELECT role FROM users WHERE username = ?", (username,))
+            result = cursor.fetchone()
+            conn.close()
+            if result:
+                return result[0]
+        except Exception as e:
+            print(f"Erreur DB: {e}")  # Debug
+            pass
+    
+    return 'guest'
+
+@app.get("/api/users")
+async def get_real_users(request: Request, filter: str = ""):
+    session_user = get_session_user_real(request)
+    is_admin = (session_user == 'admin')
+    
+    print(f"DEBUG: session_user={session_user}, is_admin={is_admin}")  # Debug
+    
+    try:
+        conn = sqlite3.connect("honeypot.db")
+        cursor = conn.cursor()
+        
+        if filter:
+            cursor.execute("SELECT id, username, password, role FROM users WHERE username LIKE ? ORDER BY id", (f'%{filter}%',))
+        else:
+            cursor.execute("SELECT id, username, password, role FROM users ORDER BY id")
+        
+        rows = cursor.fetchall()
+        print(f"DEBUG: found {len(rows)} rows")  # Debug
+        conn.close()
+        
+        users = []
+        for row in rows:
+            user_obj = {
+                'id': row[0],
+                'username': row[1],
+                'email': f"{row[1]}@honeypot.local",
+                'role': row[3] if len(row) > 3 else 'user',
+                'lastLogin': '2025-07-05 12:00:00'
+            }
+            if is_admin:
+                user_obj['password'] = row[2]
+            users.append(user_obj)
+        
+        print(f"DEBUG: returning {len(users)} users")  # Debug
+        return users
+        
+    except Exception as e:
+        print(f"DEBUG: Exception {e}")  # Debug
+        return {"error": str(e)}
+
+@app.get("/api/auth/check")
+async def check_auth_real(request: Request):
+    session_user = get_session_user_real(request)
+    return {'user': session_user, 'isAdmin': session_user == 'admin'}
+
+@router.post("login")
+async def login_jwt(request: Request, username: str = Form(...), password: str = Form(...)):
+    log_request(request, f"JWT_LOGIN username={username}, password={password}")
+    return JSONResponse(content={"message": "Login OK", "token": fake_jwt(username)})
+
+@app.get("/logs", response_class=PlainTextResponse)
+async def direct_logs():
+    """Route directe pour les logs (bypass du router)"""
+    try:
+        with open("/app/logs/http.log", "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "Fichier http.log non trouvé"
+    except Exception as e:
+        return f"Erreur: {str(e)}"
+
+# ------------------ Terminal Simulation ------------------
+FAKE_FLAGS = {
+    "/root/flag.txt": "flag{you_thought_this_was_real_lol}",
+    "/var/www/html/flag.php": "flag{wp_admin_exposed_backup}",
+    "/.env": "APP_SECRET=flag{env_stolen_fake}"
+}
+
+CVE_MAP = {
+    "cat /.env": "CVE-2023-XXXX – Exfiltration de variables d'environnement",
+    "rm -rf /": "CVE-2022-CRITICAL – Commande destructrice",
+    "curl http://": "CVE-2021-CALLBACK – External callback",
+    "python -c": "CVE-2020-RCE – Remote Code Execution"
+}
+
+
+
+
+

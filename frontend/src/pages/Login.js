@@ -22,11 +22,13 @@ export default function Login() {
         body: JSON.stringify({event:"honeypot_spam", field: hp}),
       });
     }
-    const res = await fetch("http://localhost:8081/login", {
-      method: "POST",
-      headers: {"Content-Type":"application/x-www-form-urlencoded"},
-      body: new URLSearchParams({username, password})
-    });
+    const res = await fetch('http://localhost:8081/auth/login-jwt', {
+	  method: 'POST',
+	  headers: {
+		'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify({ username, password })
+	});
     const data = await res.json();
     if (data.token) {
       localStorage.setItem("jwt", data.token);

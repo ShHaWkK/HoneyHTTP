@@ -39,3 +39,19 @@ async def login(request: Request, username: str = Form(...), password: str = For
     BRUTE_FORCE[key] = [ BRUTE_FORCE.get(key,[0,now])[0]+1, now ]
     log_request(request, f"LOGIN_FAIL {username}")
     return JSONResponse(status_code=401, content={"error":"Invalid credentials"})
+
+# Dans routes/auth.py
+@router.post("/login-jwt")
+async def login_jwt(request: Request):
+    try:
+        data = await request.json()
+        username = data.get('username')
+        password = data.get('password')
+    except:
+        return {"error": "Invalid JSON"}
+    
+    # Votre logique de validation...
+    if username:  # ou votre validation
+        token = f"jwt_fake_{username}"
+        return {"message": "Login OK", "token": token}
+    return {"error": "Invalid credentials"}
